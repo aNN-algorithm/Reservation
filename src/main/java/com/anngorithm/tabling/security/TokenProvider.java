@@ -31,6 +31,7 @@ public class TokenProvider {
     // 토큰 생성(발급)
     // input : 사용자 이름 / 권한
     public String generateToken(String username, String roles) {
+        System.out.println("generateToken");
         Claims claims = Jwts.claims().setSubject(username);
         claims.put(KEY_ROLES, roles); // key-value 타입으로 저장
 
@@ -45,16 +46,19 @@ public class TokenProvider {
     }
 
     public Authentication getAuthentication(String jwt) {
+        System.out.println("getAuthentication");
         // 사용자의 정보 가져오기
         UserDetails userDetails = this.memberService.loadUserByUsername(this.getUsername(jwt));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     public String getUsername(String token) {
+        System.out.println("getUsername");
         return this.parseClaims(token).getSubject();
     }
 
     public boolean validateToken(String token) {
+        System.out.println("validateToken");
         if (!StringUtils.hasText(token))  return false;
 
         var claims = this.parseClaims(token);
@@ -63,6 +67,8 @@ public class TokenProvider {
 
     // 토큰으로부터 클레임 정보 가져오기
     private Claims parseClaims(String token) {
+        System.out.println("parseClaims");
+
         try {
             return Jwts.parser().setSigningKey(this.secretKey).parseClaimsJws(token).getBody();
         } catch (ExpiredJwtException e) {

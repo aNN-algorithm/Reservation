@@ -33,6 +33,8 @@ public class MemberService implements UserDetailsService {
             throw new RuntimeException("이미 사용중인 아이디입니다.");
         }
 
+        System.out.println("MemberService register");
+
         // 비밀번호 암호화
         member.setPassword(this.passwordEncoder.encode(member.getPassword()));
         return this.memberRepository.save(member.toEntity());
@@ -40,6 +42,8 @@ public class MemberService implements UserDetailsService {
 
     // 로그인
     public Member authenticate(Auth.SignIn member) {
+        System.out.println("MemberService authenticate");
+
         // 계정 데이터를 받아오고 / 없는 경우 에러 발생
         var user = this.memberRepository.findByUsername(member.getUsername())
                             .orElseThrow(() -> new RuntimeException("존재하지 않는 ID입니다."));
@@ -48,6 +52,8 @@ public class MemberService implements UserDetailsService {
         if (!this.passwordEncoder.matches(member.getPassword(), user.getPassword())) {
             throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
+
+        System.out.println("MemberService authenticate success");
 
         // 해당 계정 반환
         return user;

@@ -12,11 +12,13 @@ public class AppConfig {
 
     @Bean
     public Trie<String, String> trie() {
+        System.out.println("trie");
         return new PatriciaTrie<>();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        System.out.println("passwordEncoder");
         return new BCryptPasswordEncoder();
     }
 

@@ -23,6 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        System.out.println("SecurityConfiguration configure");
         http
                 .httpBasic().disable()
                 .csrf().disable()
@@ -33,6 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .antMatchers("/member/**", "/kiosk/**", "/read/**").permitAll()
                 .and()
                     .addFilterBefore(this.authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        System.out.println("SecurityConfiguration configure end");
     }
 
     @Bean

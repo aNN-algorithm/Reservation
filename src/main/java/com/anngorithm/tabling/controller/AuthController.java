@@ -24,7 +24,9 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody Auth.SignUp request) {
         // 회원 등록
+        System.out.println("AuthController signup");
         var result = this.memberService.register(request);
+
 
         // 성공 결과 반환
         // 실패의 경우(계정 유무) : Service에서 처리
@@ -34,10 +36,14 @@ public class AuthController {
     // 로그인
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody Auth.SignIn request) {
+        System.out.println("AuthController signin");
+
         // 로그인
         var member = this.memberService.authenticate(request);
         // 로그인 토큰(세션) 생성
         var token = this.tokenProvider.generateToken(member.getUsername(), member.getRoles());
+
+        System.out.println("AuthController signin success");
 
         return ResponseEntity.ok(token);
     }
